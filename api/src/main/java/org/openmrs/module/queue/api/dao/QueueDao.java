@@ -14,11 +14,15 @@ import javax.validation.constraints.NotNull;
 import java.util.List;
 
 import org.openmrs.Auditable;
+import org.openmrs.Concept;
 import org.openmrs.OpenmrsObject;
+import org.openmrs.module.queue.model.Queue;
 
 public interface QueueDao<Q extends OpenmrsObject & Auditable> extends BaseQueueDao<Q> {
 	
 	List<Q> getAllQueuesByLocation(@NotNull String locationUuid);
 	
 	List<Q> getAllQueuesByLocation(@NotNull String locationUuid, boolean includeVoided);
+	
+	Double getQueueAverageWaitTime(@NotNull Queue queue, Concept status);
 }
