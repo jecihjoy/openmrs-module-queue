@@ -82,9 +82,9 @@ public class QueueEntryDaoImpl extends AbstractBaseQueueDaoImpl<QueueEntry> impl
 		criteria.add(Restrictions.eq("patient.uuid", patientUuid));
 		
 		return criteria.list();
-
-	}
 		
+	}
+	
 	@Override
 	public String generateVisitQueueNumber(Location location, Queue queue) {
 		Criteria criteriaVisitQueueEntries = getCurrentSession().createCriteria(VisitQueueEntry.class, "_vqe");

@@ -50,7 +50,7 @@ public interface QueueEntryDao<Q extends OpenmrsObject & Auditable> extends Base
 	 */
 	Collection<QueueEntry> getActiveQueueEntryByPatientUuid(@NotNull String patientUuid);
 	
-	/** 
+	/**
 	 * @param location
 	 * @param queue
 	 * @return VisitQueueNumber - used to identify patients in the queue instead of using patient name
