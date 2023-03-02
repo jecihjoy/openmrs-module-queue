@@ -64,8 +64,9 @@ public class QueueMetricsResource extends DelegatingCrudResource<SimpleObject> {
 			        : null;
 			Double averageWaitTime = service.getQueueAverageWaitTime(service.getQueueByUuid(queueUuid).get(), status);
 			
-			return new GenericSingleObjectResult(Arrays.asList(new PropValue("metric", averageWaitTime + " " + service),
-			    new PropValue("averageWaitTime", averageWaitTime)));
+			return new GenericSingleObjectResult(
+			        Arrays.asList(new PropValue("queue", service.getQueueByUuid(queueUuid).get().getName()),
+			            new PropValue("averageWaitTime", averageWaitTime)));
 		}
 		
 		return new EmptySearchResult();

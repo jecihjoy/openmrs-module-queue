@@ -82,15 +82,20 @@ public class QueueDaoImpl extends AbstractBaseQueueDaoImpl<Queue> implements Que
 		}
 		List<QueueEntry> queuedToday = criteria.list();
 		
-		Double totalWaitTime = 0.0;
-		for (QueueEntry e : queuedToday) {
-			LocalDateTime startedAt = e.getStartedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-			LocalDateTime endedAt = e.getEndedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-			
-			totalWaitTime += Duration.between(startedAt, endedAt).toMinutes();
-			
+		Double averageWaitTime = 0.0;
+		
+		if (!queuedToday.isEmpty()) {
+			Double totalWaitTime = 0.0;
+			for (QueueEntry e : queuedToday) {
+				LocalDateTime startedAt = e.getStartedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				LocalDateTime endedAt = e.getEndedAt().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+				
+				totalWaitTime += Duration.between(startedAt, endedAt).toMinutes();
+				
+			}
+			return totalWaitTime / (queuedToday.size());
 		}
 		
-		return totalWaitTime / (queuedToday.size());
+		return averageWaitTime;
 	}
 }
