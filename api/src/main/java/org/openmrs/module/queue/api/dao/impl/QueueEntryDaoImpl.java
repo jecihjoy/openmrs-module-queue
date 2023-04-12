@@ -16,6 +16,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Collection;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
@@ -92,8 +93,6 @@ public class QueueEntryDaoImpl extends AbstractBaseQueueDaoImpl<QueueEntry> impl
 		Criteria criteriaQueueEntries = criteriaVisitQueueEntries.createCriteria("_vqe.queueEntry", "_qe");
 		Criteria criteriaQueue = criteriaQueueEntries.createCriteria("_qe.queue", "_q");
 		Criteria criteriaQueueLocation = criteriaQueue.createCriteria("_q.location", "_ql");
-		criteriaQueueLocation
-		        .add(Restrictions.and(Restrictions.isNull("_qe.endedAt"), Restrictions.isNotNull("_qe.startedAt")));
 		criteriaQueueLocation.add(eq("_ql.uuid", location.getUuid()));
 		criteriaQueueLocation.add(eq("_q.uuid", queue.getUuid()));
 		
@@ -104,8 +103,10 @@ public class QueueEntryDaoImpl extends AbstractBaseQueueDaoImpl<QueueEntry> impl
 			visitQueueNumber = queueEntryList.size() + 1;
 		}
 		
+		String paddedString = StringUtils.leftPad(String.valueOf(visitQueueNumber), 3, "0");
+		
 		String serviceName = queue.getName().toUpperCase();
 		String prefix = serviceName.length() < 3 ? serviceName : serviceName.substring(0, 3);
-		return prefix + "-" + visitQueueNumber;
+		return prefix + "-" + paddedString;
 	}
 }
